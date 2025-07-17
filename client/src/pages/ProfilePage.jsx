@@ -10,6 +10,11 @@ const ProfilePage = () => {
 
     const navigate = useNavigate();
 
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        navigate('/');
+    }
+
     return (
         <div
             className='
@@ -37,7 +42,10 @@ const ProfilePage = () => {
                 '
             >
 
-                <form className='flex flex-col gap-5 p-10 flex-1'>
+                <form
+                    onSubmit={handleSubmit}
+                    className='flex flex-col gap-5 p-10 flex-1'
+                >
                     <h3 className='text-lg'>Profile details</h3>
                     <label
                         htmlFor="avatar"
@@ -57,8 +65,44 @@ const ProfilePage = () => {
                         />
                         upload profile image
                     </label>
+
+                    <input
+                        type="text"
+                        placeholder='Your name'
+                        required
+                        className='p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500'
+                        onChange={(e) => setName(e.target.value)}
+                        value={name}
+                    />
+                    <textarea
+                        rows={10}
+                        placeholder='Write profile bio'
+                        required
+                        className='p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500'
+                        onChange={(e) => setBio(e.target.value)}
+                        value={bio}
+                    ></textarea>
+
+                    <button
+                        type="submit"
+                        className='bg-gradient-to-r from-purple-400 to-violet-600 text-white p-2 rounded-full text-lg cursor-pointer'
+                    >
+                        Save
+                    </button>
+
                 </form>
-                <img src="" alt="" />
+
+                <img
+                    src={assets.logo_icon}
+                    alt=""
+                    className='
+                        max-w-44
+                        aspect-square
+                        rounded-full
+                        mx-10
+                        max-sm:mt-10
+                    '
+                />
 
             </div>
         </div>

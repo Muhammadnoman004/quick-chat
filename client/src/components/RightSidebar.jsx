@@ -1,7 +1,22 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import assets, { imagesDummyData } from '../assets/assets'
+import { ChatContext } from '../../context/ChatContext'
+import { AuthContext } from '../../context/AuthContext';
 
-const RightSidebar = ({ selectedUser }) => {
+const RightSidebar = () => {
+
+    const { selectedUser, messages } = useContext(ChatContext);
+    const { logout, onlineUsers } = useContext(AuthContext);
+    const [msgImages, setMsgImages] = useState([]);
+
+    // Get all the images from the messages and set them to state
+
+    useEffect(() => {
+        setMsgImages(
+            messages.filter(msg => msg.image).map(msg => msg.image)
+        );
+    }, [messages])
+
     return selectedUser && (
         <div
             className={`
@@ -40,7 +55,7 @@ const RightSidebar = ({ selectedUser }) => {
                         items-center
                         gap-2
                     '>
-                    <p className='w-2 h-2 rounded-full bg-green-500'></p>
+                    {onlineUsers.includes(selectedUser._id) && <p className='w-2 h-2 rounded-full bg-green-500'></p>}
                     {selectedUser?.fullName}
                 </h1>
                 <p className='px-10 mx-auto'>{selectedUser?.bio}</p>
@@ -60,7 +75,7 @@ const RightSidebar = ({ selectedUser }) => {
                         gap-4
                         opacity-80
                     '>
-                    {imagesDummyData.map((url, index) => (
+                    {msgImages.map((url, index) => (
                         <div
                             key={index}
                             onClick={() => window.open(url)}
@@ -77,6 +92,7 @@ const RightSidebar = ({ selectedUser }) => {
             </div>
 
             <button
+                onClick={() => logout()}
                 className='
                     absolute
                     bottom-5
